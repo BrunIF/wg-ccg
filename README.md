@@ -5,7 +5,7 @@
 Please install `qr` utility and `pillow` library. Also install wirequrd tools
 
 ```bash
-pip3 install qrcode[pil]
+pip3 install qrcode pillow
 ```
 
 ```bash
@@ -55,7 +55,7 @@ Create file `user-list.txt` with IP addresses and User names. Ex.
 ```ini
 1.1.1.1 User Name1
 1.1.1.2 User Name1 Mobile
-2.2.2.2 User Nane2
+2.2.2.2 User Name2
 3.3.3.3 User Name3
 ```
 
