@@ -1,3 +1,4 @@
 server_info
 server-append.conf
 clients/*
+user-list.txt

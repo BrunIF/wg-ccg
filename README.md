@@ -47,3 +47,20 @@ Generate client configuration for client and server
 
 All configuration user files (conf and png) you can find in `clients` folder.
 Configuration for sever find in `server-append.conf` file.
+
+## Bulk generation of configurations
+
+Create file `user-list.txt` with IP addresses and User names. Ex.
+
+```ini
+1.1.1.1 User Name1
+1.1.1.2 User Name1 Mobile
+2.2.2.2 User Nane2
+3.3.3.3 User Name3
+```
+
+Run command for generate configuration file and QR code for this users.
+
+```bash
+./bulk-generate ./user-list.txt
+```

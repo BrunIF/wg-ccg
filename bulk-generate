@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+__file_name="$1"
+
+if ! [[ -f $__file_name ]]; then
+  exit 1
+fi
+
+while IFS= read -r line
+do
+  IFS=" " read -r -a __user_info <<< "$line"
+  __ip_address=${__user_info[0]}
+  __user_full_name=${__user_info[*]:1}
+  ./wg-ccg "$__ip_address" "$__user_full_name"
+done < "$__file_name"
