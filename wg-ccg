@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+__user_ip=$1
+__user_name=$2
+
+function __help () {
+  echo -e "Arguments:"
+  echo -e "  - IP address"
+  echo -e "  - Username"
+  echo -e "Usage:"
+  echo -e "\$ ./wg-gen-client.sh \"10.20.30.2\" \"Igor Bronovskyi\""
+}
+
+function _check_arguments () {
+  if [[ -z $__user_ip || -z $__user_name ]]; then
+    __help
+    exit 1
+  fi
+}
+
+function __gen_private_key () {
+  wg genkey
+}
+
+function __gen_public_key () {
+  echo "$1" | wg pubkey
+}
+
+function __check_clients_folder () {
+  __directory="clients"  
+  if ! [ -d "$__directory" ]; then
+    mkdir "$__directory"
+  fi
+}
+
+function _generate_configuration () {
+  __check_clients_folder
+  __client_private_key=$( __gen_private_key )
+  __client_public_key=$( __gen_public_key "$__client_private_key" )
+  __server_info=$( cat server_info )
+  __client_configuration=$( cat <<- EOL
+[Interface]
+# Name of peer: ${__user_name}
+PrivateKey = ${__client_private_key}
+Address = ${__user_ip}/32
+${__server_info}
+
+EOL
+)
+
+  __file_path=./clients/"$__user_name"-"$__user_ip"
+  echo "$__client_configuration" > "${__file_path}.conf"
+  qr < "${__file_path}.conf" > "${__file_path}.png"
+  __server_configuration=$( cat <<- EOL
+
+[Peer]
+# Name of peer: ${__user_name}
+PublicKey = ${__client_public_key}
+AllowedIPs = ${__user_ip}/32
+
+EOL
+)
+
+echo "$__server_configuration" >> ./server-append.conf
+
+}
+
+_check_arguments
+_generate_configuration

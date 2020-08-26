@@ -1,0 +1,6 @@
+DNS = 1.2.3.1
+
+[Peer]
+PublicKey = +5MoqlOPOYrmr9juRZwxRQwiIRKNytFw4jSQxmcatwE=
+AllowedIPs = 0.0.0.0/0
+Endpoint = 1.2.3.4:51820
